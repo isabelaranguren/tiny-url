@@ -1,0 +1,47 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.log
+
+# Virtual environments
+.venv/
+
+.vscode/
+
+# Secrets / Environment
+.env
+.env.*
+
+# AWS credentials (if placed locally)
+.aws/
+
+# SQLite (for local dev)
+*.sqlite3
+
+# Docker
+*.pid
+*.seed
+*.db
+*.tar
+*.sock
+docker-compose.override.yml
+
+# Bytecode
+*.pyc
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Testing / Coverage
+htmlcov/
+coverage.*
+.cache/
+pytest_cache/
+
+# Build
+build/
+dist/
+*.egg-info/
