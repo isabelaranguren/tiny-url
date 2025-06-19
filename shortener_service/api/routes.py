@@ -1,13 +1,15 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from shortener_service.services.shortener import URLShortenerService
-from kgs.services.key_service import fetch_and_reserve_key
+from kgs.services.key_service import KeyPoolService
 
 router = APIRouter()
 
 TABLE_NAME = "URLMappings"
+KEYPOOL_TABLE = "KeyPool"
 
 shortener_service = URLShortenerService(table_name=TABLE_NAME)
+key_service = KeyPoolService(table_name=KEYPOOL_TABLE)
 
 class ShortenRequest(BaseModel):
     original_url: str
@@ -20,7 +22,7 @@ class ResolveResponse(BaseModel):
 
 @router.post("/shorten", response_model=ShortenResponse)
 def shorten_url(request: ShortenRequest):
-    short_key = fetch_and_reserve_key()
+    short_key = key_service.reserve_available_key() 
     if not short_key:
         raise HTTPException(status_code=500, detail="No available short keys.")
 
