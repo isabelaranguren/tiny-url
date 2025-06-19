@@ -34,3 +34,7 @@ async def get_key_endpoint():
         raise HTTPException(status_code=502, detail=f"AWS Client error: {e.response['Error']['Message']}")
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+    
+@router.get("/metrics")
+def metrics():
+    return key_service.get_metrics()

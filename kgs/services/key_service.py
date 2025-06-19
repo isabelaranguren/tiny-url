@@ -1,5 +1,5 @@
 import logging
-from kgs.db.dynamodb import table
+from shared.db.db import get_table
 from kgs.utils.generator import generate_key
 from boto3.dynamodb.conditions import Attr
 from botocore.exceptions import ClientError
@@ -18,6 +18,7 @@ metrics = {
     "reservation_failures": 0
 }
 
+table = get_table("ShortKeys")  # Add this line
 
 def batch_generate_keys(count=10000):
     """

@@ -4,7 +4,6 @@ from botocore.exceptions import ClientError
 
 def test_dynamodb_connection():
     try:
-        # Create DynamoDB resource using env vars or AWS CLI config
         dynamodb = boto3.resource(
             'dynamodb',
             region_name=os.getenv('AWS_REGION', 'us-east-1'),
@@ -15,11 +14,9 @@ def test_dynamodb_connection():
         table_name = 'ShortKeys'
         table = dynamodb.Table(table_name)
         
-        # Check if table exists by describing it
-        table.load()  # Will throw error if table not found
+        table.load() 
         print(f"Table '{table_name}' found. Status: {table.table_status}")
         
-        # Try inserting a test item (use a unique key)
         test_key = 'test-key-123'
         table.put_item(
             Item={'shortKey': test_key, 'isUsed': False},
@@ -27,12 +24,10 @@ def test_dynamodb_connection():
         )
         print(f"Inserted test item with key: {test_key}")
         
-        # Fetch the inserted item
         response = table.get_item(Key={'shortKey': test_key})
         item = response.get('Item')
         print(f"Fetched item: {item}")
         
-        # Clean up: delete the test item
         table.delete_item(Key={'shortKey': test_key})
         print("Test item deleted successfully.")
         
